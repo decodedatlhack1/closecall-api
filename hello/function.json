@@ -5,7 +5,9 @@
       "authLevel": "function",
       "name": "req",
       "type": "httpTrigger",
-      "direction": "in"
+      "direction": "in",
+      "methods": [ "get" ],
+      "route": "hello/{name}"
     },
     {
       "name": "$return",

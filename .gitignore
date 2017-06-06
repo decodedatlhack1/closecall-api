@@ -1,0 +1,11 @@
+# Ignore hidden system files
+*~
+.DS_Store
+*#*#
+*.log
+*.swp
+*.swo
+
+# Ignore local files
+local/
+
