@@ -20,16 +20,14 @@ public class Person
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
-    string responseMessage = string.Empty;
-
     log.Info("Getting help...");
 
-    responseMessage = JsonConvert.SerializeObject(new Person {
+    Person respondant = new Person {
         Name = "Barry Howard",
         Phone = "770-519-2683",
         Latitude = 33.7779679,
         Longitude = -84.391745
-    });
+    };
 
-    return req.CreateResponse(HttpStatusCode.OK, responseMessage);
+    return req.CreateResponse(HttpStatusCode.OK, respondant);
 }
