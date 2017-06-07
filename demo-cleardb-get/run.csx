@@ -69,20 +69,83 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Skill = "Cardiac arrest management",
         Theta = 0.587F
     }));
+
     persons.Add(Person.GetQuery(new Person {
-        Name = "Barry Howard",
-        Email = "barry.howard@ge.com",
-        Phone = "770-519-2683",
+        Name = "Molly Percocet",
+        Email = "molly.percocet@live.com"",
+        Phone = "404-226-7528",
         AllowPush = true,
         ShareLocation = true,
-        Situations = new string[1] {
-            "Medical"
-        },
-        Skills = new string[1] {
-            "Retired Nurse"
-        },
-        Latitude = 0.0D,
-        Longitude = 0.0D
+        Skills = new string[1] { "Retired Nurse" },
+        Situations = new string[1] { "Medical" },
+        Latitude = 33.778959D,
+        Longitude = -84.389540D
+    }));
+    persons.Add(Person.GetQuery(new Person {
+        Name = "Kendrick Lamar",
+        Email = "humble@live.com",
+        Email = "404-226-7529",
+        AllowPush = true,
+        ShareLocation = true,
+        Skills = new string[1] { "CPR" },
+        Situations = new string[1] { "Medical" },
+        Latitude = 33.776427D,
+        Longitude = -84.391171D
+    }));
+    persons.Add(Person.GetQuery(new Person {
+        Name = "Gucci Mane",
+        Email = "guccigucci@live.com",
+        Email = "404-226-7530",
+        AllowPush = true,
+        ShareLocation = true,
+        Skills = new string[1] { "CPR" },
+        Situations = new string[1] { "Medical" },
+        Latitude = 33.772696D,
+        Longitude = -84.386247D
+    }));
+    persons.Add(Person.GetQuery(new Person {
+        Name = "Christopher Bridges",
+        Email = "luddddaaaaa@live.com",
+        Email = "404-226-7531",
+        AllowPush = true,
+        ShareLocation = true,
+        Skills = new string[1] { "EMT" },
+        Situations = new string[1] { "Medical" },
+        Latitude = 33.763583D,
+        Longitude = -84.394293D
+    }));
+    persons.Add(Person.GetQuery(new Person {
+        Name = "John Mayer",
+        Email = "ilovecountrymusic@live.com",
+        Email = "404-226-7532",
+        AllowPush = true,
+        ShareLocation = true,
+        Skills = new string[1] { "Emotional Therapist" },
+        Situations = new string[1] { "Medical" },
+        Latitude = 33.791485D,
+        Longitude = -84.371095D
+    }));
+    persons.Add(Person.GetQuery(new Person {
+        Name = "Trinidad James",
+        Email = "allgoldinmywatch@live.com",
+        Email = "404-226-7533",
+        AllowPush = true,
+        ShareLocation = true,
+        Skills = new string[1] { "Basic Triage" },
+        Situations = new string[1] { "Medical" },
+        Latitude = 33.775972D,
+        Longitude = -84.399886D
+    }));
+    persons.Add(Person.GetQuery(new Person {
+        Name = "Soulja Boy",
+        Email = "superman@live.com",
+        Phone = "404-226-7534",
+        AllowPush = true,
+        ShareLocation = true,
+        Skills = new string[1] { "Doctor" },
+        Situations = new string[1] { "Medical" },
+        Latitude = 33.779452D,
+        Longitude = -84.384594D
     }));
 
     // Create graph vertex
