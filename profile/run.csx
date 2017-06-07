@@ -47,8 +47,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         gremlinQuery += ".property('email', '" + email + "')";
         gremlinQuery += ".property('name', '" + name + "')";
         gremlinQuery += ".property('phone', '" + phone + "')";
-        gremlinQuery += ".property('shareLocation', " + shareLocation + ")";
-        gremlinQuery += ".property('allowPush', " + allowPush + ")";
+        gremlinQuery += ".property('shareLocation', " + (shareLocation ? "true" : "false") + ")";
+        gremlinQuery += ".property('allowPush', " + (allowPush ? "true" : "false") + ")";
 
         IDocumentQuery<dynamic> query = client.CreateGremlinQuery<dynamic>(graph, gremlinQuery);
 
