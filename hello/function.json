@@ -7,7 +7,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "methods": [ "get" ],
-      "route": "hello/{name}"
+      "route": "hello"
     },
     {
       "name": "$return",
