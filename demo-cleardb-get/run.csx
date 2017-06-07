@@ -64,7 +64,6 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     log.Info("Creating sample data...");
 
     // Queries
-    mappings.Add("g.V().drop().iterate()");
     mappings.Add(Mapping.GetQuery(new Mapping {
         Intent = "Short of breath",
         Skill = "Cardiac arrest management",
