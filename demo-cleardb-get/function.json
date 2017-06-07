@@ -7,7 +7,7 @@
       "type": "httpTrigger",
       "direction": "in",
       "methods": [ "get" ],
-      "route": "admin/resetdb"
+      "route": "demo/resetdb"
     },
     {
       "name": "$return",
