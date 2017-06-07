@@ -21,8 +21,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     string name = data?.name;
     string email = data?.email;
     string phone = data?.phone;
-    bool shareLocation = data?.shareLocation;
-    bool allowPush = data?.allowPush;
+    bool shareLocation = data?.shareLocation || false;
+    bool allowPush = data?.allowPush || false;
     string[] situations = data?.situations.ToObject<string[]>();
     string[] skills = data?.skills.ToObject<string[]>();
     //string photoURL = data?.photoURL;
