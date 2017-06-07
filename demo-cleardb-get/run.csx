@@ -64,7 +64,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     log.Info("Creating sample data...");
 
     // Queries
-    //queries.Add("g.V().drop().iterate()");
+    mappings.Add("g.V().drop().iterate()");
     mappings.Add(Mapping.GetQuery(new Mapping {
         Intent = "Short of breath",
         Skill = "Cardiac arrest management",
@@ -75,65 +75,69 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Email = "barry.howard@ge.com",
         Phone = "770-519-2683",
         AllowPush = true,
-        ShareLocation = true
+        ShareLocation = true,
         Situations = new string[1] {
             "Medical"
         },
         Skills = new string[1] {
             "Retired Nurse"
-        }
+        },
+        Latitude = 0.0D,
+        Longitude = 0.0D
     }));
 
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
     string graphUri = ConfigurationManager.AppSettings["GraphURI"];
 
-    // using (DocumentClient client = new DocumentClient(
-    //     new Uri(graphUri),
-    //     authKey,
-    //     new ConnectionPolicy {
-    //         ConnectionMode = ConnectionMode.Direct,
-    //         ConnectionProtocol = Protocol.Tcp
-    //         }))
-    // {
+    using (DocumentClient client = new DocumentClient(
+        new Uri(graphUri),
+        authKey,
+        new ConnectionPolicy {
+            ConnectionMode = ConnectionMode.Direct,
+            ConnectionProtocol = Protocol.Tcp
+            }))
+    {
+        IDocumentQuery<dynamic> query;
 
-    //     string uri = UriFactory.CreateDatabaseUri("graphdb");
+        await client.DeleteDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri("graphdb", "Mappings"));
 
-    //     DocumentCollection mappingCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
-    //         uri,
-    //         new DocumentCollection { Id = "Mappings" },
-    //         new RequestOptions { OfferThroughput = 1000 });
-    //     IDocumentQuery<dynamic> query;
+        DocumentCollection mappingCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
+            UriFactory.CreateDatabaseUri("graphdb"),
+            new DocumentCollection { Id = "Mappings" },
+            new RequestOptions { OfferThroughput = 1000 });
 
-    //     foreach (string mappingQuery in mappings)
-    //     {
-    //         query = client.CreateGremlinQuery<dynamic>(mappingCollection, mappingQuery);
-    //         while (query.HasMoreResults)
-    //         {
-    //             foreach (dynamic result in await query.ExecuteNextAsync())
-    //             {
-    //                 responseMessage += JsonConvert.SerializeObject(result);
-    //             }
-    //         }
-    //     }
+        foreach (string mappingQuery in mappings)
+        {
+            query = client.CreateGremlinQuery<dynamic>(mappingCollection, mappingQuery);
+            while (query.HasMoreResults)
+            {
+                foreach (dynamic result in await query.ExecuteNextAsync())
+                {
+                    responseMessage += JsonConvert.SerializeObject(result);
+                }
+            }
+        }
 
-    //     DocumentCollection personCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
-    //         uri,
-    //         new DocumentCollection { Id = "Persons" },
-    //         new RequestOptions { OfferThroughput = 1000 });
+        await client.DeleteDocumentCollectionAsync(UriFactory.CreateDocumentCollectionUri("graphdb", "Persons"));
 
-    //     foreach (string personQuery in persons)
-    //     {
-    //         query = client.CreateGremlinQuery<dynamic>(personCollection, personQuery);
-    //         while (query.HasMoreResults)
-    //         {
-    //             foreach (dynamic result in await query.ExecuteNextAsync())
-    //             {
-    //                 responseMessage += JsonConvert.SerializeObject(result);
-    //             }
-    //         }
-    //     }
-    // }
+        DocumentCollection personCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
+            UriFactory.CreateDatabaseUri("graphdb"),
+            new DocumentCollection { Id = "Persons" },
+            new RequestOptions { OfferThroughput = 1000 });
+
+        foreach (string personQuery in persons)
+        {
+            query = client.CreateGremlinQuery<dynamic>(personCollection, personQuery);
+            while (query.HasMoreResults)
+            {
+                foreach (dynamic result in await query.ExecuteNextAsync())
+                {
+                    responseMessage += JsonConvert.SerializeObject(result);
+                }
+            }
+        }
+    }
 
     return req.CreateResponse(HttpStatusCode.OK, responseMessage);
 }
