@@ -46,8 +46,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     log.Info("Creating sample data...");
 
     // Queries
-    queries.add("g.V.remove()");
-    queries.add(GetCreatePersonQuery(new Person {
+    queries.Add("g.V.remove()");
+    queries.Add(GetCreatePersonQuery(new Person {
         Name = "Barry Howard",
         Email = "barry.howard@ge.com",
         Phone = "770-519-2683",
