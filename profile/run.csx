@@ -23,8 +23,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     string phone = data?.phone;
     bool shareLocation = data?.shareLocation;
     bool allowPush = data?.allowPush;
-    string[] situations = data?.situations;
-    string[] skills = data?.skills;
+    string[] situations = data?.situations.ToObject<string[]>();
+    string[] skills = data?.skills.ToObject<string[]>();
     //string photoURL = data?.photoURL;
 
     // Create graph vertex
