@@ -88,52 +88,52 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
     string graphUri = ConfigurationManager.AppSettings["GraphURI"];
 
-    using (DocumentClient client = new DocumentClient(
-        new Uri(graphUri),
-        authKey,
-        new ConnectionPolicy {
-            ConnectionMode = ConnectionMode.Direct,
-            ConnectionProtocol = Protocol.Tcp
-            }))
-    {
+    // using (DocumentClient client = new DocumentClient(
+    //     new Uri(graphUri),
+    //     authKey,
+    //     new ConnectionPolicy {
+    //         ConnectionMode = ConnectionMode.Direct,
+    //         ConnectionProtocol = Protocol.Tcp
+    //         }))
+    // {
 
-        string uri = UriFactory.CreateDatabaseUri("graphdb");
+    //     string uri = UriFactory.CreateDatabaseUri("graphdb");
 
-        DocumentCollection mappingCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
-            uri,
-            new DocumentCollection { Id = "Mappings" },
-            new RequestOptions { OfferThroughput = 1000 });
-        IDocumentQuery<dynamic> query;
+    //     DocumentCollection mappingCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
+    //         uri,
+    //         new DocumentCollection { Id = "Mappings" },
+    //         new RequestOptions { OfferThroughput = 1000 });
+    //     IDocumentQuery<dynamic> query;
 
-        foreach (string mappingQuery in mappings)
-        {
-            query = client.CreateGremlinQuery<dynamic>(mappingCollection, mappingQuery);
-            while (query.HasMoreResults)
-            {
-                foreach (dynamic result in await query.ExecuteNextAsync())
-                {
-                    responseMessage += JsonConvert.SerializeObject(result);
-                }
-            }
-        }
+    //     foreach (string mappingQuery in mappings)
+    //     {
+    //         query = client.CreateGremlinQuery<dynamic>(mappingCollection, mappingQuery);
+    //         while (query.HasMoreResults)
+    //         {
+    //             foreach (dynamic result in await query.ExecuteNextAsync())
+    //             {
+    //                 responseMessage += JsonConvert.SerializeObject(result);
+    //             }
+    //         }
+    //     }
 
-        DocumentCollection personCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
-            uri,
-            new DocumentCollection { Id = "Persons" },
-            new RequestOptions { OfferThroughput = 1000 });
+    //     DocumentCollection personCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
+    //         uri,
+    //         new DocumentCollection { Id = "Persons" },
+    //         new RequestOptions { OfferThroughput = 1000 });
 
-        foreach (string personQuery in persons)
-        {
-            query = client.CreateGremlinQuery<dynamic>(personCollection, personQuery);
-            while (query.HasMoreResults)
-            {
-                foreach (dynamic result in await query.ExecuteNextAsync())
-                {
-                    responseMessage += JsonConvert.SerializeObject(result);
-                }
-            }
-        }
-    }
+    //     foreach (string personQuery in persons)
+    //     {
+    //         query = client.CreateGremlinQuery<dynamic>(personCollection, personQuery);
+    //         while (query.HasMoreResults)
+    //         {
+    //             foreach (dynamic result in await query.ExecuteNextAsync())
+    //             {
+    //                 responseMessage += JsonConvert.SerializeObject(result);
+    //             }
+    //         }
+    //     }
+    // }
 
     return req.CreateResponse(HttpStatusCode.OK, responseMessage);
 }
