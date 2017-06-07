@@ -1,0 +1,10 @@
+{
+    "frameworks": {
+        "net46":{
+            "dependencies": {
+                "Microsoft.Azure.DocumentDB": "1.14.1",
+                "Microsoft.Azure.Graphs": "0.2.0-preview"
+            }
+        }
+    }
+}

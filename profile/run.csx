@@ -1,17 +1,14 @@
-#r "Microsoft.Azure.DocumentDB"
-#r "Microsoft.Azure.Graphs"
-
-using System;
-using System.Configuration;
-using System.Net;
-using System.Web.Http;
-using System.Threading.Tasks;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Graphs;
 using Microsoft.Azure.Graphs.Elements;
 using Newtonsoft.Json;
+using System;
+using System.Configuration;
+using System.Net;
+using System.Web.Http;
+using System.Threading.Tasks;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
