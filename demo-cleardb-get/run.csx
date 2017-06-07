@@ -11,6 +11,21 @@ using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
 
+public class Edge
+{
+    public string Email1 { get; set; }
+    public string Email2 { get; set; }
+    public float Weight { get; set; }
+
+    public static string GetQuery(Edge edge)
+    {
+        string gremlinQuery = "g.V().hasLabel('person').has('email','" + edge.Email1 + "')";
+        gremlinQuery += ".addE('distance')";
+        gremlinQuery += ".to(g.V().hasLabel('person').has('email','" + edge.Email2 + "'))";
+        return gremlinQuery;
+    }
+}
+
 public class Mapping
 {
     public string Intent { get; set; }
@@ -57,6 +72,7 @@ public class Person
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
+    List<string> edges = new List<string>();
     List<string> mappings = new List<string>();
     List<string> persons = new List<string>();
     string responseMessage = string.Empty;
@@ -179,6 +195,30 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Longitude = -84.384594D
     }));
 
+    // Edges
+    Edge edge;
+    string[] emails = new string[7] {
+        "molly.percocet@live.com",
+        "humble@live.com",
+        "guccigucci@live.com",
+        "luddddaaaaa@live.com",
+        "ilovecountrymusic@live.com",
+        "allgoldinmywatch@live.com",
+        "superman@live.com"
+    };
+    Random random = new Random();
+    for (int i = 0; i < emails.Length; i++)
+    {
+        for (int j = 0; j < emails.Length; j++)
+        {
+            edge = new Edge();
+            edge.Email1 = emails[i];
+            edge.Email2 = emails[j];
+            edge.Weight = (float)random.NextDouble();
+            edges.Add(Edge.GetQuery(edge));
+        }
+    }
+
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
     string graphUri = ConfigurationManager.AppSettings["GraphURI"];
@@ -222,6 +262,18 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         foreach (string personQuery in persons)
         {
             query = client.CreateGremlinQuery<dynamic>(personCollection, personQuery);
+            while (query.HasMoreResults)
+            {
+                foreach (dynamic result in await query.ExecuteNextAsync())
+                {
+                    responseMessage += JsonConvert.SerializeObject(result);
+                }
+            }
+        }
+
+        foreach (string edgeQuery in edges)
+        {
+            query = client.CreateGremlinQuery<dynamic>(personCollection, edgeQuery);
             while (query.HasMoreResults)
             {
                 foreach (dynamic result in await query.ExecuteNextAsync())
