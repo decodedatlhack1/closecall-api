@@ -57,34 +57,32 @@ public class Person
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
-    //List<string> mappings = new List<string>();
-    //List<string> persons = new List<string>();
+    List<string> mappings = new List<string>();
+    List<string> persons = new List<string>();
     string responseMessage = string.Empty;
 
     log.Info("Creating sample data...");
 
     // Queries
     //queries.Add("g.V().drop().iterate()");
-    Mapping m = new Mapping {
+    mappings.Add(Mapping.GetQuery(new Mapping {
         Intent = "Short of breath",
         Skill = "Cardiac arrest management",
-        Theta = 0.587
-    };
-    //mappings.Add(GetCreateMappingQuery(m));
-    Person p = new Person {
+        Theta = 0.587F
+    }));
+    persons.Add(Person.GetQuery(new Person {
         Name = "Barry Howard",
         Email = "barry.howard@ge.com",
         Phone = "770-519-2683",
         AllowPush = true,
         ShareLocation = true
-        // Situations = new string[1] {
-        //     "Medical"
-        // },
-        // Skills = new string[1] {
-        //     "Retired Nurse"
-        // }
-    };
-    //persons.Add(GetCreatePersonQuery(p));
+        Situations = new string[1] {
+            "Medical"
+        },
+        Skills = new string[1] {
+            "Retired Nurse"
+        }
+    }));
 
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
