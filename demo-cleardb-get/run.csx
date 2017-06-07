@@ -63,16 +63,47 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     log.Info("Creating sample data...");
 
-    // Queries
+    // Mappings
     mappings.Add(Mapping.GetQuery(new Mapping {
-        Intent = "Short of breath",
-        Skill = "Cardiac arrest management",
-        Theta = 0.587F
+        Intent = "Fall Or Trauma",
+        Skill = "Retired Nurse",
+        Theta = 0.95F
+    }));
+    mappings.Add(Mapping.GetQuery(new Mapping {
+        Intent = "Fall Or Trauma",
+        Skill = "Doctor",
+        Theta = 1.00F
+    }));
+    mappings.Add(Mapping.GetQuery(new Mapping {
+        Intent = "Fall Or Trauma",
+        Skill = "Basic Triage",
+        Theta = 0.80F
+    }));
+    mappings.Add(Mapping.GetQuery(new Mapping {
+        Intent = "Bleeding",
+        Skill = "EMT",
+        Theta = 0.75F
+    }));
+    mappings.Add(Mapping.GetQuery(new Mapping {
+        Intent = "Chest Pain",
+        Skill = "CPR",
+        Theta = 0.85F
+    }));
+    mappings.Add(Mapping.GetQuery(new Mapping {
+        Intent = "Chest Pain",
+        Skill = "Retired Nurse",
+        Theta = 0.75F
+    }));
+    mappings.Add(Mapping.GetQuery(new Mapping {
+        Intent = "Fall Or Trauma",
+        Skill = "Emotional Therapist",
+        Theta = 0.15F
     }));
 
+    // Persons
     persons.Add(Person.GetQuery(new Person {
         Name = "Molly Percocet",
-        Email = "molly.percocet@live.com"",
+        Email = "molly.percocet@live.com",
         Phone = "404-226-7528",
         AllowPush = true,
         ShareLocation = true,
@@ -84,7 +115,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     persons.Add(Person.GetQuery(new Person {
         Name = "Kendrick Lamar",
         Email = "humble@live.com",
-        Email = "404-226-7529",
+        Phone = "404-226-7529",
         AllowPush = true,
         ShareLocation = true,
         Skills = new string[1] { "CPR" },
@@ -95,7 +126,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     persons.Add(Person.GetQuery(new Person {
         Name = "Gucci Mane",
         Email = "guccigucci@live.com",
-        Email = "404-226-7530",
+        Phone = "404-226-7530",
         AllowPush = true,
         ShareLocation = true,
         Skills = new string[1] { "CPR" },
@@ -106,7 +137,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     persons.Add(Person.GetQuery(new Person {
         Name = "Christopher Bridges",
         Email = "luddddaaaaa@live.com",
-        Email = "404-226-7531",
+        Phone = "404-226-7531",
         AllowPush = true,
         ShareLocation = true,
         Skills = new string[1] { "EMT" },
@@ -117,7 +148,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     persons.Add(Person.GetQuery(new Person {
         Name = "John Mayer",
         Email = "ilovecountrymusic@live.com",
-        Email = "404-226-7532",
+        Phone = "404-226-7532",
         AllowPush = true,
         ShareLocation = true,
         Skills = new string[1] { "Emotional Therapist" },
@@ -128,7 +159,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     persons.Add(Person.GetQuery(new Person {
         Name = "Trinidad James",
         Email = "allgoldinmywatch@live.com",
-        Email = "404-226-7533",
+        Phone = "404-226-7533",
         AllowPush = true,
         ShareLocation = true,
         Skills = new string[1] { "Basic Triage" },
