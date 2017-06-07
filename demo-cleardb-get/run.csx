@@ -35,7 +35,7 @@ public static string GetCreateMappingQuery(Mapping mapping)
 {
     string gremlinQuery = "g.addV('mapping')";
     gremlinQuery += ".property('intent', '" + mapping.Intent + "')";
-    gremlinQuery += ".property('skill', '" + mapping.Skil + "')";
+    gremlinQuery += ".property('skill', '" + mapping.Skill + "')";
     gremlinQuery += ".property('theta', " + mapping.Theta + ")";
     return gremlinQuery;
 }
