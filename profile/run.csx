@@ -38,7 +38,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         ConnectionProtocol = Protocol.Tcp
         };
 
-    using (DocumentClient client = new DocumentClient(new Uri(graphUri), authKey, connectionPolicy)
+    using (DocumentClient client = new DocumentClient(new Uri(graphUri), authKey, connectionPolicy))
     {
         DocumentCollection graph = await client.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri("closecall-db"),
