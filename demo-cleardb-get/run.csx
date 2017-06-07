@@ -31,7 +31,7 @@ public static string GetCreatePersonQuery(Person person)
     gremlinQuery += ".property('name', '" + person.Name + "')";
     gremlinQuery += ".property('phone', '" + person.Phone + "')";
     gremlinQuery += ".property('allowPush', " + (person.AllowPush ? "true" : "false") + ")";
-    gremlinQuery += ".property('shareLocation', " + (person.shareLocation ? "true" : "false") + ")";
+    gremlinQuery += ".property('shareLocation', " + (person.ShareLocation ? "true" : "false") + ")";
     gremlinQuery += ".property('skills', '" + person.Skills + "')";
     gremlinQuery += ".property('situations', '" + person.Situations + "')";
     gremlinQuery += ".property('latitude', " + person.Latitude + ")";
