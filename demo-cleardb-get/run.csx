@@ -96,15 +96,18 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             ConnectionProtocol = Protocol.Tcp
             }))
     {
-        DocumentCollection graph = await client.CreateDocumentCollectionIfNotExistsAsync(
-            UriFactory.CreateDatabaseUri("graphdb"),
+
+        string uri = UriFactory.CreateDatabaseUri("graphdb");
+
+        DocumentCollection mappingCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
+            uri,
             new DocumentCollection { Id = "Mappings" },
             new RequestOptions { OfferThroughput = 1000 });
         IDocumentQuery<dynamic> query;
 
         foreach (string mappingQuery in mappings)
         {
-            query = client.CreateGremlinQuery<dynamic>(graph, mappingQuery);
+            query = client.CreateGremlinQuery<dynamic>(mappingCollection, mappingQuery);
             while (query.HasMoreResults)
             {
                 foreach (dynamic result in await query.ExecuteNextAsync())
@@ -114,14 +117,14 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             }
         }
 
-        graph = await client.CreateDocumentCollectionIfNotExistsAsync(
-            UriFactory.CreateDatabaseUri("graphdb"),
+        DocumentCollection personCollection = await client.CreateDocumentCollectionIfNotExistsAsync(
+            uri,
             new DocumentCollection { Id = "Persons" },
             new RequestOptions { OfferThroughput = 1000 });
 
         foreach (string personQuery in persons)
         {
-            query = client.CreateGremlinQuery<dynamic>(graph, personQuery);
+            query = client.CreateGremlinQuery<dynamic>(personCollection, personQuery);
             while (query.HasMoreResults)
             {
                 foreach (dynamic result in await query.ExecuteNextAsync())
