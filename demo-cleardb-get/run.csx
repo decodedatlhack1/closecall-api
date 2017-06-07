@@ -47,8 +47,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     log.Info("Creating sample data...");
 
     // Queries
-    queries.Add("g.V.each{g.removeVertex(it)}");
-    queries.Add("g.commit()");
+    queries.Add("g.V().drop().iterate()");
     // queries.Add(GetCreatePersonQuery(new Person {
     //     Name = "Barry Howard",
     //     Email = "barry.howard@ge.com",
