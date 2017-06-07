@@ -100,10 +100,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
             UriFactory.CreateDatabaseUri("graphdb"),
             new DocumentCollection { Id = "Mappings" },
             new RequestOptions { OfferThroughput = 1000 });
+        IDocumentQuery<dynamic> query;
 
         foreach (string mappingQuery in mappings)
         {
-            IDocumentQuery<dynamic> query = client.CreateGremlinQuery<dynamic>(graph, mappingQuery);
+            query = client.CreateGremlinQuery<dynamic>(graph, mappingQuery);
             while (query.HasMoreResults)
             {
                 foreach (dynamic result in await query.ExecuteNextAsync())
@@ -120,7 +121,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
         foreach (string personQuery in persons)
         {
-            IDocumentQuery<dynamic> query = client.CreateGremlinQuery<dynamic>(graph, personQuery);
+            query = client.CreateGremlinQuery<dynamic>(graph, personQuery);
             while (query.HasMoreResults)
             {
                 foreach (dynamic result in await query.ExecuteNextAsync())
