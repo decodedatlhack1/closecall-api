@@ -36,6 +36,7 @@ public static string GetCreatePersonQuery(Person person)
     gremlinQuery += ".property('situations', '" + person.Situations + "')";
     gremlinQuery += ".property('situations', " + person.Latitude + ")";
     gremlinQuery += ".property('situations', " + person.Longitude + ")";
+    return gremlinQuery;
 }
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
@@ -53,11 +54,11 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Phone = "770-519-2683",
         AllowPush = true,
         ShareLocation = true,
-        Skills = new string[1] {
-            "A skill"
-        },
         Situations = new string[1] {
-            "A situation"
+            "Medical"
+        },
+        Skills = new string[1] {
+            "Retired Nurse"
         }
     }));
 
