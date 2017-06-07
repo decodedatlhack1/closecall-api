@@ -21,10 +21,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     string name = data?.name;
     string email = data?.email;
     string phone = data?.phone;
-    bool shareLocation = data?.shareLocation || false;
-    bool allowPush = data?.allowPush || false;
-    string[] situations = data?.situations.ToObject<string[]>();
+    bool allowPush = data?.allowPush.ToObject<bool>() || false;
+    bool shareLocation = data?.shareLocation.ToObject<bool>() || false;
     string[] skills = data?.skills.ToObject<string[]>();
+    string[] situations = data?.situations.ToObject<string[]>();
     //string photoURL = data?.photoURL;
 
     // Create graph vertex
@@ -46,10 +46,10 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         gremlinQuery += ".property('email', '" + email + "')";
         gremlinQuery += ".property('name', '" + name + "')";
         gremlinQuery += ".property('phone', '" + phone + "')";
-        gremlinQuery += ".property('shareLocation', " + (shareLocation ? "true" : "false") + ")";
         gremlinQuery += ".property('allowPush', " + (allowPush ? "true" : "false") + ")";
-        gremlinQuery += ".property('situations', '" + situations + "')";
+        gremlinQuery += ".property('shareLocation', " + (shareLocation ? "true" : "false") + ")";
         gremlinQuery += ".property('skills', '" + skills + "')";
+        gremlinQuery += ".property('situations', '" + situations + "')";
 
         IDocumentQuery<dynamic> query = client.CreateGremlinQuery<dynamic>(graph, gremlinQuery);
 
