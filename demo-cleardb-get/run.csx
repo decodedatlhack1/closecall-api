@@ -16,6 +16,15 @@ public class Mapping
     public string Intent { get; set; }
     public string Skill { get; set; }
     public float Theta { get; set; }
+
+    public static string GetQuery(Mapping mapping)
+    {
+        string gremlinQuery = "g.addV('mapping')";
+        gremlinQuery += ".property('intent', '" + mapping.Intent + "')";
+        gremlinQuery += ".property('skill', '" + mapping.Skill + "')";
+        gremlinQuery += ".property('theta', " + mapping.Theta + ")";
+        return gremlinQuery;
+    }
 }
 
 public class Person
@@ -29,30 +38,21 @@ public class Person
     public string[] Situations { get; set; }
     public double Latitude { get; set; }
     public double Longitude { get; set; }
-}
 
-public static string GetCreateMappingQuery(Mapping mapping)
-{
-    string gremlinQuery = "g.addV('mapping')";
-    gremlinQuery += ".property('intent', '" + mapping.Intent + "')";
-    gremlinQuery += ".property('skill', '" + mapping.Skill + "')";
-    gremlinQuery += ".property('theta', " + mapping.Theta + ")";
-    return gremlinQuery;
-}
-
-public static string GetCreatePersonQuery(Person person)
-{
-    string gremlinQuery = "g.addV('person')";
-    gremlinQuery += ".property('email', '" + person.Email + "')";
-    gremlinQuery += ".property('name', '" + person.Name + "')";
-    gremlinQuery += ".property('phone', '" + person.Phone + "')";
-    gremlinQuery += ".property('allowPush', " + (person.AllowPush ? "true" : "false") + ")";
-    gremlinQuery += ".property('shareLocation', " + (person.ShareLocation ? "true" : "false") + ")";
-    gremlinQuery += ".property('skills', '" + person.Skills + "')";
-    gremlinQuery += ".property('situations', '" + person.Situations + "')";
-    gremlinQuery += ".property('latitude', " + person.Latitude + ")";
-    gremlinQuery += ".property('longitude', " + person.Longitude + ")";
-    return gremlinQuery;
+    public static string GetQuery(Person person)
+    {
+        string gremlinQuery = "g.addV('person')";
+        gremlinQuery += ".property('email', '" + person.Email + "')";
+        gremlinQuery += ".property('name', '" + person.Name + "')";
+        gremlinQuery += ".property('phone', '" + person.Phone + "')";
+        gremlinQuery += ".property('allowPush', " + (person.AllowPush ? "true" : "false") + ")";
+        gremlinQuery += ".property('shareLocation', " + (person.ShareLocation ? "true" : "false") + ")";
+        gremlinQuery += ".property('skills', '" + person.Skills + "')";
+        gremlinQuery += ".property('situations', '" + person.Situations + "')";
+        gremlinQuery += ".property('latitude', " + person.Latitude + ")";
+        gremlinQuery += ".property('longitude', " + person.Longitude + ")";
+        return gremlinQuery;
+    }
 }
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
@@ -84,7 +84,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         //     "Retired Nurse"
         // }
     };
-    persons.Add(GetCreatePersonQuery(p));
+    //persons.Add(GetCreatePersonQuery(p));
 
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
