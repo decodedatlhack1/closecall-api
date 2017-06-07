@@ -23,8 +23,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     log.Info("Getting help...");
 
     Person respondant = new Person {
-        Name = "Barry Howard",
-        Phone = "770-519-2683",
+        Name = "Christopher Bridges",
+        Phone = "404-226-7531",
         Latitude = 33.7779679,
         Longitude = -84.391745
     };
