@@ -75,13 +75,13 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         Email = "barry.howard@ge.com",
         Phone = "770-519-2683",
         AllowPush = true,
-        ShareLocation = true,
-        Situations = new string[1] {
-            "Medical"
-        },
-        Skills = new string[1] {
-            "Retired Nurse"
-        }
+        ShareLocation = true
+        // Situations = new string[1] {
+        //     "Medical"
+        // },
+        // Skills = new string[1] {
+        //     "Retired Nurse"
+        // }
     }));
 
     // Create graph vertex
