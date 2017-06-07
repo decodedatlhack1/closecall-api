@@ -34,8 +34,8 @@ public static string GetCreatePersonQuery(Person person)
     gremlinQuery += ".property('shareLocation', " + (person.shareLocation ? "true" : "false") + ")";
     gremlinQuery += ".property('skills', '" + person.Skills + "')";
     gremlinQuery += ".property('situations', '" + person.Situations + "')";
-    gremlinQuery += ".property('situations', " + person.Latitude + ")";
-    gremlinQuery += ".property('situations', " + person.Longitude + ")";
+    gremlinQuery += ".property('latitude', " + person.Latitude + ")";
+    gremlinQuery += ".property('longitude', " + person.Longitude + ")";
     return gremlinQuery;
 }
 
@@ -48,19 +48,19 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
 
     // Queries
     queries.Add("g.V.remove()");
-    queries.Add(GetCreatePersonQuery(new Person {
-        Name = "Barry Howard",
-        Email = "barry.howard@ge.com",
-        Phone = "770-519-2683",
-        AllowPush = true,
-        ShareLocation = true,
-        Situations = new string[1] {
-            "Medical"
-        },
-        Skills = new string[1] {
-            "Retired Nurse"
-        }
-    }));
+    // queries.Add(GetCreatePersonQuery(new Person {
+    //     Name = "Barry Howard",
+    //     Email = "barry.howard@ge.com",
+    //     Phone = "770-519-2683",
+    //     AllowPush = true,
+    //     ShareLocation = true,
+    //     Situations = new string[1] {
+    //         "Medical"
+    //     },
+    //     Skills = new string[1] {
+    //         "Retired Nurse"
+    //     }
+    // }));
 
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
