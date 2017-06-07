@@ -12,21 +12,20 @@ using System.Threading.Tasks;
 
 public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceWriter log)
 {
-    string responseMessage = "";
+    string responseMessage = string.Empty;
 
-    //log.Info("Log example");
+    log.Info("Creating profile...");
 
-    // Get request body
+    // Parse request body
     dynamic data = await req.Content.ReadAsAsync<object>();
-
-    // Parse body data
     string name = data?.name;
     string email = data?.email;
     string phone = data?.phone;
     bool shareLocation = data?.shareLocation;
     bool allowPush = data?.allowPush;
+    string[] situations = data?.situations;
+    string[] skills = data?.skills;
     //string photoURL = data?.photoURL;
-    //Skill[] skills = data?.skills;
 
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
@@ -49,6 +48,8 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         gremlinQuery += ".property('phone', '" + phone + "')";
         gremlinQuery += ".property('shareLocation', " + (shareLocation ? "true" : "false") + ")";
         gremlinQuery += ".property('allowPush', " + (allowPush ? "true" : "false") + ")";
+        gremlinQuery += ".property('situations', '" + situations + "')";
+        gremlinQuery += ".property('skills', '" + skills + "')";
 
         IDocumentQuery<dynamic> query = client.CreateGremlinQuery<dynamic>(graph, gremlinQuery);
 
