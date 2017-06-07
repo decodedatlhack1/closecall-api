@@ -25,34 +25,35 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
     bool shareLocation = data?.shareLocation;
     string[] skills = data?.skills.ToObject<string[]>();
     string[] situations = data?.situations.ToObject<string[]>();
-    //string photoURL = data?.photoURL;
+
+    // Form gremlin query
+    string gremlinQuery = "g.addV('person')";
+    gremlinQuery += ".property('email', '" + email + "')";
+    gremlinQuery += ".property('name', '" + name + "')";
+    gremlinQuery += ".property('phone', '" + phone + "')";
+    gremlinQuery += ".property('allowPush', " + (allowPush ? "true" : "false") + ")";
+    gremlinQuery += ".property('shareLocation', " + (shareLocation ? "true" : "false") + ")";
+    gremlinQuery += ".property('skills', '" + skills + "')";
+    gremlinQuery += ".property('situations', '" + situations + "')";
 
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
     string graphUri = ConfigurationManager.AppSettings["GraphURI"];
-    ConnectionPolicy connectionPolicy = new ConnectionPolicy {
-        ConnectionMode = ConnectionMode.Direct,
-        ConnectionProtocol = Protocol.Tcp
-        };
 
-    using (DocumentClient client = new DocumentClient(new Uri(graphUri), authKey, connectionPolicy))
+    using (DocumentClient client = new DocumentClient(
+        new Uri(graphUri),
+        authKey,
+        new ConnectionPolicy {
+            ConnectionMode = ConnectionMode.Direct,
+            ConnectionProtocol = Protocol.Tcp
+            }))
     {
         DocumentCollection graph = await client.CreateDocumentCollectionIfNotExistsAsync(
             UriFactory.CreateDatabaseUri("graphdb"),
             new DocumentCollection { Id = "Persons" },
             new RequestOptions { OfferThroughput = 1000 });
 
-        string gremlinQuery = "g.addV('person')";
-        gremlinQuery += ".property('email', '" + email + "')";
-        gremlinQuery += ".property('name', '" + name + "')";
-        gremlinQuery += ".property('phone', '" + phone + "')";
-        gremlinQuery += ".property('allowPush', " + (allowPush ? "true" : "false") + ")";
-        gremlinQuery += ".property('shareLocation', " + (shareLocation ? "true" : "false") + ")";
-        gremlinQuery += ".property('skills', '" + skills + "')";
-        gremlinQuery += ".property('situations', '" + situations + "')";
-
         IDocumentQuery<dynamic> query = client.CreateGremlinQuery<dynamic>(graph, gremlinQuery);
-
         while (query.HasMoreResults)
         {
             foreach (dynamic result in await query.ExecuteNextAsync())
