@@ -84,7 +84,7 @@ public static async Task<HttpResponseMessage> Run(HttpRequestMessage req, TraceW
         //     "Retired Nurse"
         // }
     };
-    //persons.Add(GetCreatePersonQuery(p));
+    persons.Add(GetCreatePersonQuery(p));
 
     // Create graph vertex
     string authKey = ConfigurationManager.AppSettings["AuthKey"];
