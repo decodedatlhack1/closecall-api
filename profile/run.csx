@@ -5,6 +5,7 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Graphs;
 using Microsoft.Azure.Graphs.Elements;
+using Newtonsoft.Json;
 using System;
 using System.Configuration;
 using System.Net;
